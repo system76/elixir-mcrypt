@@ -6,13 +6,12 @@ defmodule Mcrypt do
     :ok  = :erlang.load_nif(path, 1)
   end
 
-  # A simple wrapper around the NIF call
-  def hello do
-    _hello
+  # This function will not be overwritten if the nif fails to load
+  def encrypt(_plaintext, _algorithm, _mode, _key, _iv) do
+    exit(:nif_library_not_loaded)
   end
 
-  # This function will not be overwritten if the nif fails to load
-  def _hello do
+  def decrypt(_ciphertext, _algorithm, _mode, _key, _iv) do
     exit(:nif_library_not_loaded)
   end
 end
