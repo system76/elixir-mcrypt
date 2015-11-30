@@ -1,9 +1,9 @@
 #include "erl_nif.h"
 #include <mcrypt.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <strings.h>
-#include <unistd.h>
+// #include <stdio.h>
+// #include <stdlib.h>
+// #include <strings.h>
+// #include <unistd.h>
 
 // def encrypt(plaintext, algorithm, mode, key, iv)
 static ERL_NIF_TERM encrypt(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
