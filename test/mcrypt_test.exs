@@ -11,4 +11,8 @@ defmodule McryptTest do
   test "encrypting matches a known ciphertext" do
     assert Mcrypt.encrypt(@plaintext, :"rijndael-256", :nofb, @key, @iv) == {:ok, @ciphertext}
   end
+
+  test "decrypting a known ciphertext reproduces the plaintext" do
+    assert Mcrypt.decrypt(@ciphertext, :"rijndael-256", :nofb, @key, @iv) == {:ok, @plaintext}
+  end
 end

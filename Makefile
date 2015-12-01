@@ -10,7 +10,9 @@ ifneq ($(OS),Windows_NT)
 endif
 
 priv/lib_mcrypt.so: clean
-	@$(CC) $(CFLAGS) -shared $(LDFLAGS) -o $@ c_src/mcrypt_nif.c
+	@$(CC) $(CFLAGS) -shared $(LDFLAGS) -o $@ \
+		c_src/mcrypt_nif.c \
+		-lmcrypt
 
 clean:
 	@$(RM) -r priv/*
