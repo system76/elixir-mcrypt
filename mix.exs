@@ -11,7 +11,9 @@ defmodule Mcrypt.Mixfile do
       start_permanent: Mix.env == :prod,
       compilers: [:make, :elixir, :app],
       aliases: [clean: ["clean", "clean.make"]],
-      deps: [],
+      deps: [
+        {:ex_doc, "~> 0.11", only: :dev},
+      ],
       package: [
         maintainers: ["Ben Cates <ben@system76.com>"],
         licenses: ["MIT"],
