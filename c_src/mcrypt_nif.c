@@ -3,8 +3,6 @@
 
 static ERL_NIF_TERM encrypt(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // BEGIN parse arguments
-
     if (argc != 5) {
         return enif_make_badarg(env);
     }
@@ -34,21 +32,19 @@ static ERL_NIF_TERM encrypt(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         return enif_make_badarg(env);
     }
 
-    // END parse arguments
+
 
     MCRYPT td = mcrypt_module_open(algorithm, NULL, mode, NULL);
     if (td == MCRYPT_FAILED) {
-        return enif_make_badarg(env); // FIXME
+        return enif_make_atom(env, "error");
     }
 
-    int i = mcrypt_generic_init( td, key.data, key.size, iv.data);
+    int i = mcrypt_generic_init(td, key.data, key.size, iv.data);
     if (i < 0) {
-        // mcrypt_perror(i);
         // const char *err = mcrypt_strerr(i);
-        return enif_make_badarg(env); // FIXME
+        return enif_make_atom(env, "error");
     }
 
-    /* Encryption in CFB is performed in bytes */
     ErlNifBinary ciphertext;
     enif_alloc_binary(plaintext.size, &ciphertext);
     for (unsigned j = 0; j < plaintext.size; j++) {
@@ -56,7 +52,6 @@ static ERL_NIF_TERM encrypt(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         mcrypt_generic(td, &ciphertext.data[j], 1);
     }
 
-    /* Deinit the encryption thread, and unload the module */
     mcrypt_generic_end(td);
 
     return enif_make_tuple2(
@@ -68,8 +63,6 @@ static ERL_NIF_TERM encrypt(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 
 static ERL_NIF_TERM decrypt(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // BEGIN parse arguments
-
     if (argc != 5) {
         return enif_make_badarg(env);
     }
@@ -99,21 +92,19 @@ static ERL_NIF_TERM decrypt(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         return enif_make_badarg(env);
     }
 
-    // END parse arguments
+
 
     MCRYPT td = mcrypt_module_open(algorithm, NULL, mode, NULL);
     if (td == MCRYPT_FAILED) {
-        return enif_make_badarg(env); // FIXME
+        return enif_make_atom(env, "error");
     }
 
-    int i = mcrypt_generic_init( td, key.data, key.size, iv.data);
+    int i = mcrypt_generic_init(td, key.data, key.size, iv.data);
     if (i < 0) {
-        // mcrypt_perror(i);
         // const char *err = mcrypt_strerr(i);
-        return enif_make_badarg(env); // FIXME
+        return enif_make_atom(env, "error");
     }
 
-    /* Encryption in CFB is performed in bytes */
     ErlNifBinary plaintext;
     enif_alloc_binary(ciphertext.size, &plaintext);
     for (unsigned j = 0; j < plaintext.size; j++) {
@@ -121,7 +112,6 @@ static ERL_NIF_TERM decrypt(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         mdecrypt_generic(td, &plaintext.data[j], 1);
     }
 
-    /* Deinit the encryption thread, and unload the module */
     mcrypt_generic_end(td);
 
     return enif_make_tuple2(

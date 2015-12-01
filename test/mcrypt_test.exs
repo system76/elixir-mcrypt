@@ -9,10 +9,10 @@ defmodule McryptTest do
     121, 33, 30, 181, 190, 216, 238, 57, 36, 222, 35, 23, 65, 78, 184, 233>>
 
   test "encrypting matches a known ciphertext" do
-    assert Mcrypt.encrypt(@plaintext, :"rijndael-256", :nofb, @key, @iv) == {:ok, @ciphertext}
+    assert Mcrypt.encrypt(@plaintext, :rijndael_256, :nofb, @key, @iv) == {:ok, @ciphertext}
   end
 
   test "decrypting a known ciphertext reproduces the plaintext" do
-    assert Mcrypt.decrypt(@ciphertext, :"rijndael-256", :nofb, @key, @iv) == {:ok, @plaintext}
+    assert Mcrypt.decrypt(@ciphertext, :rijndael_256, :nofb, @key, @iv) == {:ok, @plaintext}
   end
 end
