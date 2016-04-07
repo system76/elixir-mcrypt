@@ -24,7 +24,7 @@ defmodule Mcrypt do
   """
   @spec encrypt(binary, algorithm, mode, binary, binary) :: {:ok, binary} | :error
   def encrypt(_plaintext, _algorithm, _mode, _key, _iv) do
-    exit(:nif_library_not_loaded)
+    :erlang.nif_error("nif not loaded")
   end
 
   @doc """
@@ -44,7 +44,7 @@ defmodule Mcrypt do
   """
   @spec decrypt(binary, algorithm, mode, binary, binary) :: {:ok, binary} | :error
   def decrypt(_ciphertext, _algorithm, _mode, _key, _iv) do
-    exit(:nif_library_not_loaded)
+    :erlang.nif_error("nif not loaded")
   end
 
   @doc """
